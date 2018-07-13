@@ -78,3 +78,59 @@ $php_ram_log=$logger->getHTMLlog_content();
 echo "contenu dela RAM log : <br/>";
 echo $php_ram_log;
 ?>
+```
+RESULTS :
+Content of log.txt: 
+
+.............. Starting Log for .../Debug/class/phplogger/test.php
+Value of $boolean  = TRUE
+$phrase = il etait un petit navire...
+Calling function testloggerinfunct() = 
+In ze function = 
+Back from testloggerinfunct() = 
+$tab = Array
+(
+    [0] => 1
+    [1] => 2
+    [2] => 3
+    [3] => 4
+    [4] => 5
+    [6] => 7
+    [7] => 8
+    [8] => 9
+    [9] => 10
+)
+
+.............. End of log for .../Debug/class/phplogger/test.php
+contenu dela RAM log : 
+
+*** Class Inner Logger Activated ***
+----- Global Active Activated   =
+----- PHP ERR REPORTING Activated =
+----- Txtlog := .............. Starting Log for .../Debug/class/phplogger/test.php
+----- Txtlog := Value of $boolean  = TRUE
+----- Txtlog := $phrase = il etait un petit navire...
+----- Txtlog := Calling function testloggerinfunct() = 
+----- Txtlog := In ze function = 
+----- Txtlog := Back from testloggerinfunct() = 
+----- Txtlog := $tab = Array
+(
+    [0] => 1
+    [1] => 2
+    [2] => 3
+    [3] => 4
+    [4] => 5
+    [6] => 7
+    [7] => 8
+    [8] => 9
+    [9] => 10
+)
+
+----- Txtlog := .............. End of log for .../Debug/class/phplogger/test.php
+----- Txtlog Text Content Sent =
+----- Txtlog HTML Content Sent =
+----- Txtlog cleared =
+*** Class Inner Logger Deactivated ***
+----- PHP ERR REPORTING Deactivated =
+----- Global Active Deactivated  =
+----- $GLOBALS['loggerref'] has been destroyed =
