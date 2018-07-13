@@ -19,7 +19,7 @@ require("./phplogger.php");
 // instanciation :
 $logger= new phplogger("./",1); // param: path/to/phplogger/folder, verbosity level 1-3
 
-// creating a superglobal containing the logger ref
+// creating a global containing the logger ref
 // allows using the object inside individual functions
 // called by the current script
 $GLOBALS["loggerref"]=&$logger;
