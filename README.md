@@ -79,6 +79,7 @@ echo "contenu dela RAM log : <br/>";
 echo $php_ram_log;
 ?>
 ```
+<pre>
 RESULTS :
 Content of log.txt: 
 
@@ -134,3 +135,4 @@ contenu dela RAM log :
 ----- PHP ERR REPORTING Deactivated =
 ----- Global Active Deactivated  =
 ----- $GLOBALS['loggerref'] has been destroyed =
+</pre>
