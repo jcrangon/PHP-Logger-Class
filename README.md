@@ -4,6 +4,9 @@ A PHP Class allowing logging of the entire context
 <?php
 session_start();
 
+// function that will be used to test
+// the capacity of the logger to be accessed from inside
+// individual functions of the context
 function testloggerinfunct(){
 	if(isset($GLOBALS["loggerref"])){$logger=$GLOBALS["loggerref"];$log=true;}else{$log=false;}
 	// Function code ...
