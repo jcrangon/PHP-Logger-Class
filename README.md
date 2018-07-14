@@ -40,7 +40,7 @@ $logger->start(__FILE__);
 
 
 // method add(), info(), warning(), error(), fatal()
-$logger->info("just adding a line in the log ","",__FILE__,__LINE__);
+$logger->add("just adding a line in the log ","",__FILE__,__LINE__);
 
 $boolean=true;
 $logger->info("Value of \$boolean ",$boolean,__FILE__,__LINE__);
