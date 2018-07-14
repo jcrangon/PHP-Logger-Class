@@ -8,12 +8,31 @@ class phplogger{
 	private $_globalactive;
 	private $_verbosity;
 	private $_log_content;
+	private $_colors;
+	private $_debug_color;
+	private $_info_color;
+	private $_warning_color;
+	private $_error_color;
+	private $_fatal_color;
+	private $_txt_color;
+	private $_bkgd_color;
+	private $_ramlog_color;
 	
+	const DEBUG="#75ef40";
+	const INFO="#4045ed";
+	const WARNING="#f2ee1d";
+	const ERROR="#ef8a07";
+	const FATAL="#ea2020";
+	const TXT="#cec6c6";
+	const BKGD="#171715";
+	const RAMLOGCOLOR="cec6c6";
 	
 	public function __construct($path,$verbose){
 		$this->setPathtofolder($path);
 		$this->setLogfile($this->_pathtologfolder);
 		$this->setVerbosity($verbose);
+		$this->setColortab();
+		$this->setColors($this->_colors);
 		$this->init_log_content();
 	}
 	
@@ -25,6 +44,57 @@ class phplogger{
 	
 	
 	// setters
+	protected function setColortab(){
+		$this->_colors=array(
+				"DEBUG" => SELF::DEBUG,
+				"INFO" => SELF::INFO,
+				"WARNING" => SELF::WARNING,
+				"ERROR" => SELF::ERROR,
+				"FATAL" => SELF::FATAL,
+				"TXT" => SELF::TXT,
+				"BKGD" => SELF::BKGD,
+				"RAMLOGCOLOR" => SELF::RAMLOGCOLOR
+			);
+	}
+	
+	public function setColors(array $tab){
+		foreach($tab as $k=>$v){
+			switch($k){
+				case "DEBUG":
+					$this->_debug_color=$v;
+					$this->_colors["DEBUG"]=$v;
+				break;
+				case "INFO":
+					$this->_info_color=$v;
+					$this->_colors["INFO"]=$v;
+				break;
+				case "WARNING":
+					$this->_warning_color=$v;
+					$this->_colors["WARNING"]=$v;
+				break;
+				case "ERROR":
+					$this->_error_color=$v;
+					$this->_colors["ERROR"]=$v;
+				break;
+				case "FATAL":
+					$this->_fatal_color=$v;
+					$this->_colors["FATAL"]=$v;
+				break;
+				case "TXT":
+					$this->_txt_color=$v;
+					$this->_colors["TXT"]=$v;
+				break;
+				case "BKGD":
+					$this->_bkgd_color=$v;
+					$this->_colors["BKGD"]=$v;
+				break;
+				case "RAMLOGCOLOR":
+					$this->_ramlog_color=$v;
+					$this->_colors["RAMLOGCOLOR"]=$v;
+				break;
+			}
+		}
+	}
 	protected function setGlobalactive(){
 		$this->checkSession();
 		if($this->_active===1){
@@ -73,6 +143,8 @@ class phplogger{
 	}
 	
 	
+	
+	
 	// getters
 	public function getActivationState(){
 		return $this->_active;
@@ -85,13 +157,18 @@ class phplogger{
 	}
 	public function getHTMLlog_content(){
 		$lg=$this->nl2br2($this->_log_content);
-		return "<PRE>".$lg."</PRE>";
+		return "<PRE><span style=\"color:".$this->_ramlog_color."\">".$lg."</span></PRE>";
 	}
+	public function getColors_in_use(){
+		return $this->_colors;
+	}
+	
+	
 	
 	
 	// protected methods
 	protected function addLog_content($logstmt){
-		$logstmt=strval($logstmt)."\n";
+		$logstmt=strip_tags(strval($logstmt))."\n";
 		$this->_log_content.=$logstmt;
 	}
 	protected function clean_file_location($location){
@@ -267,7 +344,7 @@ class phplogger{
 	public function start($location){
 		if($this->_active===1){
 			$location=$this->clean_file_location($location);
-			$this->txtlog_writeln("<b>.............. Starting Log for ".$location."</b>",1);
+			$this->txtlog_writeln("<span style=\"color:".$this->_txt_color."\">[</span><span style=\"color:".$this->_debug_color.";\">DEBUG</span><span style=\"color:".$this->_txt_color."\">]   </span><span style=\"color:".$this->_txt_color."\"><b>.............. Starting Log for ".$location."</b></span>",1);
 			
 		}
 	}
@@ -275,7 +352,7 @@ class phplogger{
 	public function stop($location){
 		if($this->_active===1){
 			$location=$this->clean_file_location($location);
-			$this->txtlog_writeln("<b>.............. End of log for ".$location."</b>");
+			$this->txtlog_writeln("<span style=\"color:".$this->_txt_color."\">[</span><span style=\"color:".$this->_debug_color.";\">DEBUG</span><span style=\"color:".$this->_txt_color."\">]   </span><span style=\"color:".$this->_txt_color."\"><b>.............. End of Log for ".$location."</b></span>");
 			
 		}
 	}
@@ -283,11 +360,42 @@ class phplogger{
 	public function add($desc,$var,$f,$l){
 		if($this->_active===1){
 			$ln=$this->mkline($desc,$var,$f,$l);
+			$ln="<span style=\"color:".$this->_txt_color."\">".$ln."</span>";
+			$this->txtlog_writeln($ln);
+		}
+	}
+	
+	public function info($desc,$var,$f,$l){
+		if($this->_active===1){
+			$ln=$this->mkline($desc,$var,$f,$l);
+			$ln="<span style=\"color:".$this->_txt_color."\">[</span><span style=\"color:".$this->_info_color.";\">INFO</span><span style=\"color:".$this->_txt_color."\">]    </span><span style=\"color:".$this->_txt_color."\">".$ln."</span>";
 			$this->txtlog_writeln($ln);
 		}
 	}
 
+	public function warning($desc,$var,$f,$l){
+		if($this->_active===1){
+			$ln=$this->mkline($desc,$var,$f,$l);
+			$ln="<span style=\"color:".$this->_txt_color."\">[</span><span style=\"color:".$this->_warning_color.";\">WARNING</span><span style=\"color:".$this->_txt_color."\">] </span><span style=\"color:".$this->_txt_color."\">".$ln."</span>";
+			$this->txtlog_writeln($ln);
+		}
+	}
 
+	public function error($desc,$var,$f,$l){
+		if($this->_active===1){
+			$ln=$this->mkline($desc,$var,$f,$l);
+			$ln="<span style=\"color:".$this->_txt_color."\">[</span><span style=\"color:".$this->_error_color.";\">ERROR</span><span style=\"color:".$this->_txt_color."\">]   </span><span style=\"color:".$this->_txt_color."\">".$ln."</span>";
+			$this->txtlog_writeln($ln);
+		}
+	}
 	
+	public function fatal($desc,$var,$f,$l){
+		if($this->_active===1){
+			$ln=$this->mkline($desc,$var,$f,$l);
+			$ln="<span style=\"color:".$this->_txt_color."\">[</span><span style=\"color:".$this->_fatal_color.";\">FATAL</span><span style=\"color:".$this->_txt_color."\">]   </span><span style=\"color:".$this->_txt_color."\">".$ln."</span>";
+			$this->txtlog_writeln($ln);
+		}
+	}
+
 }
 ?>
