@@ -1,5 +1,8 @@
 # PHP-Logger-Class
 A PHP Class allowing logging of the entire context
+<PRE>
+Version 1.1 includes four more methods - info(), warning(), error(), fatal() levels of logging, and color coding.
+</PRE>
 ```PHP
 <?php
 session_start();
