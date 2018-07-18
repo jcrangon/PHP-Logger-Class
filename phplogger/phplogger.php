@@ -336,7 +336,7 @@ class phplogger{
 			}
 			else{
 				$this->addLog_content("----- Txtlog HTML Content Sent =");
-				return "<PRE>".$this->nl2br2(file_get_contents($this->_logfile))."</PRE>";
+				return "<PRE><p style='color:".$this->_txt_color."'>".$this->nl2br2(file_get_contents($this->_logfile))."</p></PRE>";
 			}
 		}
 	}
