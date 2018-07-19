@@ -3,6 +3,7 @@ A PHP Class allowing logging of the entire context
 <PRE>
 Version 1.5 includes monitor.php, a simple utility to monitor logs including self inner class logs
 </PRE>
+```php
 <?php
 session_start();
 
