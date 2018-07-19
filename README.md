@@ -27,7 +27,14 @@ $logger= new phplogger("./",1); // param: path/to/phplogger/folder, verbosity le
 // creating a global containing the logger ref
 // allows using the object inside individual functions
 // called by the current script
-$GLOBALS["loggerref"]=&$logger;
+//$GLOBALS["loggerref"]=&$logger;
+if(isset($GLOBALS["loggerref"])){
+	unset($GLOBALS["loggerref"]);
+}
+echo "<PRE>".var_dump($GLOBALS["loggerref"])."</PRE><br/>";
+$logger->createglobalref();
+
+echo "<PRE>".var_dump($GLOBALS["loggerref"])."</PRE>";
 
 // log activation - PHP generated error will be logged from this point:
 $logger->activate();
@@ -78,6 +85,8 @@ $logger->setColors($tab_use_these_colors);
 // check the changes
 $tabcolors_in_use=$logger->getColors_in_use();
 echo "<PRE>".print_r($tabcolors_in_use,true)."</PRE>";
+
+$logger->info("CHANGING COLORS ...","",__FILE__,__LINE__);
 
 $phrase="il etait un petit navire...";
 $logger->warning("\$phrase",$phrase,__FILE__,__LINE__);
@@ -149,6 +158,9 @@ echo"</div>";
 ?>
 ```
 <pre>
+NULL
+
+object(phplogger)#1 (21) { ["_class_name":"phplogger":private]=> string(9) "phplogger" ["_pathtologfolder":"phplogger":private]=> string(2) "./" ["_logfile":"phplogger":private]=> string(9) "./log.txt" ["_phplogfile":"phplogger":private]=> NULL ["_phperrlogfile":"phplogger":private]=> string(15) "./phperrlog.txt" ["_active":"phplogger":private]=> NULL ["_globalactive":"phplogger":private]=> NULL ["_verbosity":"phplogger":private]=> int(1) ["_log_content":"phplogger":private]=> string(689) "----- *** Inner log Initialisation *** ----- *** Class name Initialisation *** ----- Success Setting path to folder $path = ./ ----- Setting txt log file = ./log.txt ----- Setting php error log file = ./phperrlog.txt ----- Loading verbosity level = 1 ----- Setting fontsize = 14px ----- Setting font family = Times New Roman, Georgia, serif " ["_colors":"phplogger":private]=> array(9) { ["DEBUG"]=> string(7) "#75ef40" ["INFO"]=> string(7) "#4045ed" ["WARNING"]=> string(7) "#f2ee1d" ["ERROR"]=> string(7) "#ef8a07" ["FATAL"]=> string(7) "#ea2020" ["TXT"]=> string(7) "#cec6c6" ["PHPTXT"]=> string(7) "#268e26" ["BKGD"]=> string(7) "#171715" ["RAMLOGCOLOR"]=> string(15) "rgba(255,0,0,1)" } ["_debug_color":"phplogger":private]=> string(7) "#75ef40" ["_info_color":"phplogger":private]=> string(7) "#4045ed" ["_warning_color":"phplogger":private]=> string(7) "#f2ee1d" ["_error_color":"phplogger":private]=> string(7) "#ef8a07" ["_fatal_color":"phplogger":private]=> string(7) "#ea2020" ["_txt_color":"phplogger":private]=> string(7) "#cec6c6" ["_php_txt_color":"phplogger":private]=> string(7) "#268e26" ["_bkgd_color":"phplogger":private]=> string(7) "#171715" ["_ramlog_color":"phplogger":private]=> string(15) "rgba(255,0,0,1)" ["_txtlog_font_size":"phplogger":private]=> string(4) "14px" ["_txtlog_font_family":"phplogger":private]=> string(31) "Times New Roman, Georgia, serif" }
 Content of log.txt: 
 
 [DEBUG] .............. Starting Log for .../class/phplogger/phplogger-V1.5/test.php
@@ -206,6 +218,7 @@ Content of log.txt:
 [DEBUG] .............. Starting Log for .../class/phplogger/phplogger-V1.5/test.php
 [INFO] just adding a line in the log = 
 [INFO] Value of $boolean = TRUE
+[INFO] CHANGING COLORS ... = 
 [WARNING] $phrase = il etait un petit navire...
 [ERROR] Calling function testloggerinfunct() = 
 [INFO] In ze function = 
@@ -226,7 +239,7 @@ Content of log.txt:
 [DEBUG] .............. End of Log for .../class/phplogger/phplogger-V1.5/test.php
 
 Content of phperrlog.txt: 
-[19-Jul-2018 23:37:19 Europe/Paris] PHP Notice: Undefined variable: my_undeclared_string in /var/www/html/devnetx-prod/Snipets/php/Debug/class/phplogger/phplogger-V1.5/test.php on line 80
+[20-Jul-2018 00:08:18 Europe/Paris] PHP Notice: Undefined variable: my_undeclared_string in /var/www/html/devnetx-prod/Snipets/php/Debug/class/phplogger/phplogger-V1.5/test.php on line 89
 
 Content of RAM log : 
 ----- *** Inner log Initialisation *** 
@@ -287,6 +300,7 @@ Content of RAM log :
 [RAMLOGCOLOR] => rgba(255,0,255,1)
 )
 
+----- Txtlog := [INFO] CHANGING COLORS ... = 
 ----- Txtlog := [WARNING] $phrase = il etait un petit navire...
 ----- Txtlog := [ERROR] Calling function testloggerinfunct() = 
 ----- Txtlog := [INFO] In ze function = 
