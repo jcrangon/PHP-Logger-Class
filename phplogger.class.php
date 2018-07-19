@@ -366,6 +366,9 @@ class phplogger{
 			break;
 		}
 	}
+	public function createglobalref(){
+		$GLOBALS["loggerref"]=&$this;
+	}
 	public function kill($active=0){
 		if($active!==0){
 			DIE ("phplogger: Wrong Deactivation argument...");
